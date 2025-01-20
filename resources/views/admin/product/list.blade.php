@@ -32,7 +32,7 @@
                                 {{ session('success') }}
                             </div>
                         @endif
-                        
+
                         <a href="{{ route('admin.product.add') }} "
                             class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Thêm Sản Phẩm Mới</a>
@@ -47,6 +47,7 @@
                                         <tr>
                                             <th style="width: 2%;">ID</th>
                                             <th>Tên</th>
+                                            <th>Hình Ảnh</th>
                                             <th>Danh Mục</th>
                                             <th>Giá</th>
                                             <th>Màu</th>
@@ -61,13 +62,27 @@
                                                 <td>{{ $product->id }}</td>
                                                 <td>{{ $product->product_name }}</td>
                                                 <td>
-                                                    @if ($product->categories->isNotEmpty())
-                                                        {{ $product->categories->pluck('category_name')->join(', ') }}
-                                                    @else
-                                                        Không Thuộc Danh Mục Nào
+                                                    @php
+                                                        $productImages = !empty($product->images)
+                                                            ? $product->images
+                                                            : null;
+                                                    @endphp
+                                                    @if (!empty($productImages))
+                                                        @php
+                                                            $images = json_decode($productImages->images);
+                                                        @endphp
+                                                        @foreach ($images as $image)
+                                                            <img src="{{ asset('storage/' . $image) }}"
+                                                                alt="{{ $product->product_name }}"
+                                                                style="width: 60px; height: 60px; margin-right: 5px;">
+                                                        @endforeach
                                                     @endif
                                                 </td>
-                                                <td>{{ number_format($product->product_price, 3, ',', '.') }} VND</td>
+                                                <td>
+                                                    {{ $product->categories->pluck('category_name')->join(', ') }}
+
+                                                </td>
+                                                <td>{{ number_format($product->product_price, 0, ',', '.') }} VND</td>
                                                 <td>{{ $product->product_color }}</td>
                                                 <td>{{ $product->product_size }}</td>
                                                 <td>{{ $product->product_description }}</td>
@@ -75,12 +90,15 @@
                                                     <a href="{{ route('admin.product.edit', $product->id) }}"
                                                         class="btn btn-primary btn-sm">Chỉnh Sửa</a>
                                                     <form action="{{ route('admin.product.delete', $product->id) }}"
-                                                        method="GET"
+                                                        method="POST"
                                                         onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');"
                                                         style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
                                                         <button type="submit"
                                                             class="btn btn-danger btn-sm">Xóa</button>
                                                     </form>
+
                                                 </td>
                                             </tr>
                                         @endforeach

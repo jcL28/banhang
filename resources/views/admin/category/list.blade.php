@@ -68,12 +68,15 @@
                                                     <a href="{{ route('admin.category.edit', $category->id) }}"
                                                         class="btn btn-primary btn-sm">Chỉnh Sửa</a>
                                                     <form action="{{ route('admin.category.delete', $category->id) }}"
-                                                        method="GET"
+                                                        method="POST"
                                                         onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?');"
                                                         style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
                                                         <button type="submit"
                                                             class="btn btn-danger btn-sm">Xóa</button>
                                                     </form>
+
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -32,13 +32,17 @@
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="{{route('user.home')}}">
-                    <i class="fas fa-shopping-cart fa-sm fa-fw mr-2 text-400"></i>
-                    Quay lại trang bán hàng
+                <a class="dropdown-item" href="{{ route('profile') }}">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-400"></i>
+                    Thông Tin Cá Nhân
                 </a>
-                <a class="dropdown-item" href="{{route('admin.home')}}">
+                <a class="dropdown-item" href="{{ route('cart') }}">
+                    <i class="fas fa-shopping-cart fa-sm fa-fw mr-2 text-400"></i>
+                    Giỏ Hàng
+                </a>
+                <a class="dropdown-item" href="{{ route('home') }}">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-400"></i>
-                    Quay lại trang quản lý
+                    Quay lại trang bán hàng
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal">

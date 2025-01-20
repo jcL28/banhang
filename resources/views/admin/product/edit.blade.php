@@ -28,12 +28,19 @@
                             <h6 class="m-0 font-weight-bold text-primary">Chỉnh sửa sản phẩm</h6>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('admin.product.edit.post', $product->id) }}" method="POST">
+                            <form action="{{ route('admin.product.edit.post', $product->id) }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label for="product_name">Tên sản phẩm</label>
                                     <input type="text" class="form-control" id="product_name" name="product_name"
                                         value="{{ old('product_name', $product->product_name) }}" required>
+                                </div>
+
+                                <div class="form-group">                                    
+                                    <label for="product_name">Hình ảnh sản phẩm</label>
+                                    <input type="file" class="form-control" id="product_image"
+                                        name="product_images[]" multiple accept="image/*">
                                 </div>
 
                                 <div class="form-group">

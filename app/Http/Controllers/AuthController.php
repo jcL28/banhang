@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -23,8 +25,8 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password,'type'=>1], $request->remember)) {
-            return redirect()->route('user.home');
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'type' => 1], $request->remember)) {
+            return redirect()->route('home');
         }
 
         return redirect()->back()->withErrors([
@@ -73,7 +75,65 @@ class AuthController extends Controller
             'type' => 1,
             'role_id' => null,
         ]);
+        Auth::loginUsingId($user->id); // tự động đăng nhập người dùng sau khi đăng ký
 
-        return redirect()->route('user.home')->with('success', 'Đã đăng ký thành công!');
+        return redirect()->route('');
+    }
+
+    public function forgotPassword()
+    {
+        return view('auth.forgot-password');
+    }
+
+    public function postForgotPassword(Request $request)
+    {
+        // Validate the email address
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        // Attempt to send the password reset link
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        // Check the status and redirect accordingly
+        if ($status === Password::RESET_LINK_SENT) {
+            return back()->with('status', __($status));
+        }
+
+        return back()->withErrors(['email' => __($status)]);
+    }
+
+    public function showResetPasswordForm($token)
+    {
+        return view('auth.reset-password', ['token' => $token]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        // Attempt to reset the password
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->setRememberToken(Str::random(60));
+                $user->save();
+            }
+        );
+
+        // Redirect based on the result
+        if ($status === Password::PASSWORD_RESET) {
+            return redirect()->route('login')->with('status', __($status));
+        }
+
+        return back()->withErrors(['email' => [__($status)]]);
     }
 }

@@ -8,7 +8,7 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function home()
+    public function home(Request $request)
     {
         return view('user.home');
     }
@@ -79,7 +79,7 @@ class UserController extends Controller
         $employee = User::findOrFail($id);
         $employee->delete();
 
-        return redirect()->route('admin.manage.employee.list')->with('success', 'Đã xóa nhân viên "' . $employee->name . '" thành công.');
+        return redirect()->route('admin.employee.list')->with('success', 'Đã xóa nhân viên "' . $employee->name . '" thành công.');
     }
 
     // Chỉnh Sửa nhân viên
@@ -111,5 +111,11 @@ class UserController extends Controller
 
         return redirect()->route('admin.employee.list')
             ->with('success', 'Cập nhật loại tài khoản của "' . $employee->name . '" thành ' . $typeName . ' thành công.');
+    }
+
+    public function profile()
+    {
+        $user = auth()->user();
+        return view('user.profile', compact('user'));
     }
 }

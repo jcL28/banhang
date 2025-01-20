@@ -8,12 +8,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login</title>
+    <title>Forgot Password</title>
 
-    <!-- filepath: /c:/xampp/htdocs/PHP/resources/views/admin/login.blade.php -->
     <link href="{{ asset('sb2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"rel="stylesheet">
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('sb2/css/sb-admin-2.min.css') }}" rel="stylesheet">
@@ -33,16 +33,24 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Forgot Your Password?</h1>
+                                        <p class="mb-4">Enter your email address below and we'll send you a link to
+                                            reset your password!</p>
                                     </div>
-                                    <form class="user" method="POST" action="{{ route('login') }}">
+                                    <form class="user" method="POST" action="{{ route('forgot-password.post') }}">
                                         @csrf
 
                                         <!-- Thông báo lỗi -->
+                                        @if (session('status'))
+                                            <div class="alert alert-success">
+                                                {{ session('status') }}
+                                            </div>
+                                        @endif
+
                                         @if ($errors->any())
                                             <div class="alert alert-danger">
                                                 <ul>
@@ -58,36 +66,13 @@
                                                 id="exampleInputEmail" name="email" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address..." required>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" name="password" placeholder="Password"
-                                                required>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck"
-                                                    name="remember">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Login
+                                            Reset Password
                                         </button>
-                                        <hr>
-                                        <a href="#" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="#" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register">Create an Account!</a>
+                                        <a class="small" href="{{ route('login') }}">Back to Login</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="/">Back to shopping</a>
@@ -104,7 +89,7 @@
 
     </div>
 
-    <!-- filepath: /c:/xampp/htdocs/PHP/resources/views/admin/login.blade.php -->
+    <!-- filepath: /c:/xampp/htdocs/PHP/resources/views/admin/forgot-password.blade.php -->
     <script src="{{ asset('sb2/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('sb2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 

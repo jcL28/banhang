@@ -1,82 +1,57 @@
-@include('user.partials.header')
+@extends('user.partials.layout')
 
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        @include('user.partials.sidebar')
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                @if (session('isAdmin'))
-                    @include('admin.partials.topbar')
-                @else
-                    @include('user.partials.topbar')
-                @endif
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Product Container</h1>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-                        <!-- Your content here -->
-                    </div>
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            @include('user.partials.footer')
-
+@section('content')
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Các Sản Phẩm Mới Nhất</h1>
         </div>
-        <!-- End of Content Wrapper -->
+        <div class="row">
+            @foreach ($products as $product)
+                <div class="col-lg-3 mb-4">
+                    <div class="card shadow mb-4">
+                        <a href="{{ route('product.view-details', $product->id) }}">
+                            @if (!empty($product->images))
+                                @php
+                                    $images = json_decode($product->images->images, true);
+                                @endphp
+                                @if (!empty($images[0]))
+                                    <img src="{{ asset('storage/' . $images[0]) }}" class="card-img-top"
+                                        alt="{{ $product->product_name }}"
+                                        style="width: 100%; height: 200px; object-fit: cover;">
+                                @endif
+                            @endif
+                        </a>
 
+
+                        <div class="card-body text-center">
+                            <h5 class="card-title"><a
+                                    href="{{ route('product.view-details', $product->id) }}">{{ $product->product_name }}</a>
+                            </h5>
+                            <p class="card-text">{{ $product->product_description }}</p>
+                            <p class="card-text">Màu: {{ $product->product_color }}</p>
+                            <p class="card-text">Kích cỡ: {{ $product->product_size }}</p>
+                            <p class="card-text">Giá:
+                                {{ number_format($product->product_price, 0, ',', '.') }} VND</p>
+                            {{-- <a href="{{ route('product.view-details', $product->id) }}" class="btn btn-primary">
+                                Xem Chi Tiết</a> --}}
+                            <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                @csrf
+                                @if (Auth::user())
+                                    <button type="submit" class="btn btn-warning mb-2">
+                                        <i class="fas fa-shopping-cart"></i> Thêm Vào Giỏ Hàng
+                                    </button>
+                                @endif
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    @if (session('isAdmin'))
-        @include('admin.partials.logout_modal')
-    @else
-        @include('user.partials.logout_modal')
-    @endif
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('sb2/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('sb2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('sb2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('sb2/js/sb-admin-2.min.js') }}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{{ asset('sb2/vendor/chart.js/Chart.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('sb2/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('sb2/js/demo/chart-pie-demo.js') }}"></script>
-
-</body>
-
-</html>
+    <style>
+        .card-title a {
+            text-decoration: none;
+        }
+    </style>
+@endsection
