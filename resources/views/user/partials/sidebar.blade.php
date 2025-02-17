@@ -13,94 +13,76 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+
+    <div class="sidebar-heading text-center">
+        <span class="heading-text">Danh Mục</span>
+    </div>
+
     <!-- Nav Item - Danh Mục -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link" href="{{ route('products', ['category' => 'Áo']) }}">
             <i class="fas fa-fw fa-tshirt"></i>
-            <span>Danh Mục</span>
+            <span>Áo</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Các loại sản phẩm:</h6>
-                <a class="collapse-item" href="{{ route('products', ['category' => 'Áo']) }}">Áo</a>
-                <a class="collapse-item" href="{{ route('products', ['category' => 'Quần']) }}">Quần</a>
-                <a class="collapse-item" href="{{ route('products', ['category' => 'Mũ']) }}">Mũ</a>
-                <a class="collapse-item" href="{{ route('products', ['category' => 'Giày']) }}">Giày</a>
-            </div>
-        </div>
     </li>
-
-    <!-- Nav Item - Giá -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-fw fa-dollar-sign"></i>
-            <span>Giá</span>
+        <a class="nav-link" href="{{ route('products', ['category' => 'Quần']) }}">
+            <i class="fas fa-fw fa-tshirt"></i>
+            <span>Quần</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Chỉ từ:</h6>
-                <a class="collapse-item" href="{{ route('products', ['price' => '1000000']) }}">Từ 1.000.000 VND</a>
-                <a class="collapse-item" href="{{ route('products', ['price' => '800000-999999']) }}">800.000 -
-                    999.999 VND</a>
-                <a class="collapse-item" href="{{ route('products', ['price' => '500000-799999']) }}">500.000 - 799.999
-                    VND</a>
-                <a class="collapse-item" href="{{ route('products', ['price' => '200000-499999']) }}">200.000 - 499.999
-                    VND</a>
-                <a class="collapse-item" href="{{ route('products', ['price' => '0-199999']) }}">
-                    Dưới 200.000 VND</a>
-            </div>
-        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('products', ['category' => 'Mũ']) }}">
+            <i class="fas fa-fw fa-tshirt"></i>
+            <span>Mũ</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('products', ['category' => 'Giày']) }}">
+            <i class="fas fa-fw fa-tshirt"></i>
+            <span>Giày</span>
+        </a>
     </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Addons
+    <!-- Heading - Giá -->
+    <div class="sidebar-heading text-center">
+        <span class="heading-text">Giá</span>
     </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Giá -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-            aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="login.html">Login</a>
-                <a class="collapse-item" href="register.html">Register</a>
-                <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Other Pages:</h6>
-                <a class="collapse-item" href="404.html">404 Page</a>
-                <a class="collapse-item" href="blank.html">Blank Page</a>
-            </div>
-        </div>
-    </li>
-
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span>
+        <a class="nav-link" href="{{ route('products', ['price' => '1000000']) }}">
+            <i class="fas fa-fw fa-dollar-sign"></i>
+            <span>Từ 1.000.000 VND</span>
         </a>
     </li>
-
-    <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span>
+        <a class="nav-link" href="{{ route('products', ['price' => '800000-999999']) }}">
+            <i class="fas fa-fw fa-dollar-sign"></i>
+            <span>800.000 - 999.999 VND</span>
         </a>
     </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('products', ['price' => '500000-799999']) }}">
+            <i class="fas fa-fw fa-dollar-sign"></i>
+            <span>500.000 - 799.999 VND</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('products', ['price' => '200000-499999']) }}">
+            <i class="fas fa-fw fa-dollar-sign"></i>
+            <span>200.000 - 499.999 VND</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('products', ['price' => '0-199999']) }}">
+            <i class="fas fa-fw fa-dollar-sign"></i>
+            <span>Dưới 200.000 VND</span>
+        </a>
+    </li>
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
@@ -115,17 +97,25 @@
 
     .nav-item .nav-link {
         font-weight: bold;
-        /* Đậm chữ */
         font-size: 1.1rem;
-        /* Tăng kích thước chữ */
         color: #ffffff;
-        /* Màu chữ trắng */
         transition: all 0.4s ease;
-        /* Thêm hiệu ứng chuyển động */
     }
 
     .nav-item .nav-link:hover {
         background-color: rgba(0, 238, 255, 0.34);
-        /* Màu nền mờ khi di chuột qua */
+    }
+
+    .sidebar-heading {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffffff;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .heading-text {
+        display: block;
+        width: 100%;
     }
 </style>

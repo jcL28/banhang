@@ -17,6 +17,10 @@ Route::get('', [IndexController::class, 'index'])->name('home');
 Route::get('products', [ProductController::class, 'index'])->name('products');
 Route::get('verify/user/{id}/{token}', [AuthController::class, 'verifyUser'])->name('user.verify');
 
+// SEARCH
+Route::get('/search', [IndexController::class, 'search'])->name('product.search');
+
+
 // USER PROFILE
 Route::group(['middleware' => ['auth']], function () {
     Route::get('profile', [UserController::class, 'profile'])->name('profile');
