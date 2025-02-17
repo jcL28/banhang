@@ -80,9 +80,9 @@
                                                 </td>
                                                 <td>
                                                     @if ($user->status == 1)
-                                                        <span class="badge badge-success">Online</span>
+                                                        <span class="badge badge-success">Đã Xác Thực</span>
                                                     @else
-                                                        <span class="badge badge-secondary">Offline</span>
+                                                        <span class="badge badge-secondary">Chưa Xác Thực</span>
                                                     @endif
                                                 </td>
                                                 <td>

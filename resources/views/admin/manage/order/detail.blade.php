@@ -1,0 +1,59 @@
+@extends('admin.partials.layout')
+
+@section('content')
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Chi Tiết Đơn Hàng</h1>
+
+            <div>
+                <form action="{{ route('admin.order.approve', $order->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Duyệt</button>
+                </form>
+                <form action="{{ route('admin.order.reject', $order->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Từ Chối</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <h5>Thông Tin Người Dùng</h5>
+                        <p>Tên: {{ $order->user->name }}</p>
+                        <p>Email: {{ $order->user->email }}</p>
+                        <p>Địa Chỉ: {{ $order->user->address }}</p>
+                        <hr>
+                        <h5>Thông Tin Đơn Hàng</h5>
+                        <p>ID Đơn Hàng: {{ $order->id }}</p>
+                        <p>Tổng Giá: {{ number_format($order->total_price, 0, ',', '.') }} VND</p>
+                        <p>Trạng Thái: {{ $order->status == 'pending' ? 'Đang chờ duyệt' : $order->status }}</p>
+                        <hr>
+                        <h5>Chi Tiết Sản Phẩm</h5>
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Tên Sản Phẩm</th>
+                                    <th>Số Lượng</th>
+                                    <th>Giá Mỗi Sản Phẩm</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{-- {{ dd($order->orderItems) }} --}}
+                                @foreach ($order->orderItems as $item)
+                                    <tr>
+                                        <td>{{ $item->product_name }}</td>
+                                        <td>{{ $item->quantity }}</td>
+                                        <td>{{ number_format($item->price, 0, ',', '.') }} VND</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection

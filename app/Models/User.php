@@ -12,6 +12,12 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_LOCK = 2;
+
+    const TYPE_ADMIN = 0;
+    const TYPE_USER = 1;
     public $timestamps = false;
 
     /**

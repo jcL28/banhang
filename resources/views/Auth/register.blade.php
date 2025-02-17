@@ -23,7 +23,17 @@
 </head>
 
 <body class="bg-gradient-warning">
-
+    {{-- Thông Báo --}}
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="container">
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
@@ -52,14 +62,13 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-8 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user"
-                                            id="exampleAddress" name="address" placeholder="Address" required>
+                                        <input type="text" class="form-control form-control-user" id="exampleAddress"
+                                            name="address" placeholder="Address" required>
                                     </div>
                                     {{ $errors->first('address') }}
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control form-control-user"
-                                            id="examplePhone" name="phone"
-                                            placeholder="Phone" required>
+                                        <input type="text" class="form-control form-control-user" id="examplePhone"
+                                            name="phone" placeholder="Phone" required>
                                     </div>
                                     {{ $errors->first('phone') }}
                                 </div>

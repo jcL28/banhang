@@ -4,11 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\User;
 
 class UserController extends Controller
 {
-    public function home(Request $request)
+    public function home()
     {
         return view('user.home');
     }
@@ -117,5 +119,31 @@ class UserController extends Controller
     {
         $user = auth()->user();
         return view('user.profile', compact('user'));
+    }
+
+
+    public function editProfile(){
+        $user = auth()->user();
+        return view('user.edit-profile', compact('user'));
+    }
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->country = $request->country;
+        $user->save();
+
+        return redirect()->route('profile')->with('success', 'Đã cập nhật thông tin thành công.');
     }
 }

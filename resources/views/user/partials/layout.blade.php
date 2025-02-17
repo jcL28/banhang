@@ -14,11 +14,6 @@
                 {{-- Topbar --}}
                 @include('user.partials.topbar')
 
-                {{-- Banner --}}
-                <div class="banner text-white text-center py-2"
-                    style="background-image: url('{{ asset('storage/images/banner.jpg') }}'); background-size: cover; background-position: center; height:70%">
-                </div>
-
                 {{-- Thông Báo --}}
                 @if (session('success'))
                     <div class="alert alert-success">
@@ -65,18 +60,6 @@
     <script src="{{ asset('sb2/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('sb2/js/demo/chart-pie-demo.js') }}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-
-    <style>
-        .banner {
-            height: 150px;
-            color: rgb(255, 255, 255);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-        }
-    </style>
 
     @stack('css')
     @stack('scripts')

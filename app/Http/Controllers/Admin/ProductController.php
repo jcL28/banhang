@@ -130,4 +130,31 @@ class ProductController extends Controller
         $product = Product::findOrFail($id); // Lấy thông tin sản phẩm
         return view('user.product.view-details', compact('product'));
     }
+
+    //Sorting
+    public function index(Request $request)
+    {
+        $query = Product::query();
+
+        if ($request->has('category')) {
+            $category = $request->query('category');
+            $query->whereHas('categories', function ($q) use ($category) {
+                $q->where('category_name', $category);
+            });
+        }
+
+        if ($request->has('price')) {
+            $price = $request->query('price');
+            if (strpos($price, '-') !== false) {
+                [$min, $max] = explode('-', $price);
+                $query->whereBetween('product_price', [(int)$min, (int)$max]);
+            } else {
+                $query->where('product_price', '>', (int)$price);
+            }
+        }
+
+        $products = $query->get();
+
+        return view('user.home', compact('products'));
+    }
 }

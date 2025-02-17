@@ -13,35 +13,43 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <!-- Nav Item - Danh Mục -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
+            <i class="fas fa-fw fa-tshirt"></i>
             <span>Danh Mục</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Components:</h6>
-                <a class="collapse-item" href="{{ route('home') }}">1</a>
-                <a class="collapse-item" href="{{ route('home') }}">2</a>
+                <h6 class="collapse-header">Các loại sản phẩm:</h6>
+                <a class="collapse-item" href="{{ route('products', ['category' => 'Áo']) }}">Áo</a>
+                <a class="collapse-item" href="{{ route('products', ['category' => 'Quần']) }}">Quần</a>
+                <a class="collapse-item" href="{{ route('products', ['category' => 'Mũ']) }}">Mũ</a>
+                <a class="collapse-item" href="{{ route('products', ['category' => 'Giày']) }}">Giày</a>
             </div>
         </div>
     </li>
 
+    <!-- Nav Item - Giá -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
             aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-fw fa-wrench"></i>
+            <i class="fas fa-fw fa-dollar-sign"></i>
             <span>Giá</span>
         </a>
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">> 1.000.000 VND</a>
-                <a class="collapse-item" href="utilities-border.html">800.000 - 1.000.000 VND</a>
-                <a class="collapse-item" href="utilities-animation.html">500.000 - 800.000 VND</a>
-                <a class="collapse-item" href="utilities-other.html">200.000 - 500.000 VND</a>
-                <a class="collapse-item" href="utilities-other.html">< 200.000 VND</a>
+                <h6 class="collapse-header">Chỉ từ:</h6>
+                <a class="collapse-item" href="{{ route('products', ['price' => '1000000']) }}">Từ 1.000.000 VND</a>
+                <a class="collapse-item" href="{{ route('products', ['price' => '800000-999999']) }}">800.000 -
+                    999.999 VND</a>
+                <a class="collapse-item" href="{{ route('products', ['price' => '500000-799999']) }}">500.000 - 799.999
+                    VND</a>
+                <a class="collapse-item" href="{{ route('products', ['price' => '200000-499999']) }}">200.000 - 499.999
+                    VND</a>
+                <a class="collapse-item" href="{{ route('products', ['price' => '0-199999']) }}">
+                    Dưới 200.000 VND</a>
             </div>
         </div>
     </li>

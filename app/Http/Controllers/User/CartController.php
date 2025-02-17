@@ -11,6 +11,7 @@ class CartController extends Controller
     public function index()
     {
         $cart = session()->get('cart', []);
+        // session()->flush();
         $total = array_reduce($cart, function ($sum, $item) {
             return $sum + $item['price'] * $item['quantity'];
         }, 0);
@@ -47,14 +48,21 @@ class CartController extends Controller
 
         return redirect()->route('home')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng!');
     }
-    public function remove($id)
+    public function remove(Request $request)
     {
+        $id = $request->id;
         $cart = session()->get('cart', []);
         if (isset($cart[$id])) {
             unset($cart[$id]);
             session()->put('cart', $cart);
         }
 
-        return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng.');
+        // return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng.');
+    }
+
+    public function updateCart(Request $request)
+    {
+        session()->put('checkout', $request->quantities);
+        return redirect()->route('checkout.show');
     }
 }

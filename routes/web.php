@@ -7,15 +7,21 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\IndexController;
 use App\Http\Middleware\CheckLoginMiddleware;
 
 
 Route::get('', [IndexController::class, 'index'])->name('home');
+Route::get('products', [ProductController::class, 'index'])->name('products');
+Route::get('verify/user/{id}/{token}', [AuthController::class, 'verifyUser'])->name('user.verify');
 
-// PROFILE
+// USER PROFILE
 Route::group(['middleware' => ['auth']], function () {
     Route::get('profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('profile/edit', [UserController::class, 'editProfile'])->name('profile.edit');
+    Route::post('profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
 });
 
 // VIEW-DETAILS
@@ -23,12 +29,15 @@ Route::get('product/view-details/{id}', [ProductController::class, 'viewDetails'
 
 // CART
 Route::get('cart', [CartController::class, 'index'])->name('cart');
+Route::put('/cart/updateCart', [CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::put('/cart/updateCart', [CartController::class, 'updateCart'])->name('cart.updateCart');
+Route::delete('/cart', [CartController::class, 'remove'])->name('cart.remove');
 
-
-
+// CHECKOUT
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.show');
+    Route::post('checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+});
 
 
 
@@ -92,5 +101,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => CheckLoginM
         Route::get('edit/{id}', [UserController::class, 'editEmp'])->name('edit');
         Route::post('edit/{id}', [UserController::class, 'postEditEmp'])->name('edit.post');
         Route::delete('delete/{id}', [UserController::class, 'deleteEmp'])->name('delete');
+    });
+
+    // ORDER
+    Route::group(['prefix' => 'manage/order', 'as' => 'order.'], function () {
+        Route::get('list', [OrderController::class, 'list'])->name('list');
+        Route::get('detail/{id}', [OrderController::class, 'detail'])->name('detail');
+        Route::post('approve/{id}', [OrderController::class, 'approveOrder'])->name('approve');
+        Route::post('reject/{id}', [OrderController::class, 'rejectOrder'])->name('reject');
     });
 });

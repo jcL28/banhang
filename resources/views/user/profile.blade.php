@@ -16,12 +16,14 @@
                         <div class="col-md-8">
                             <h5 class="card-title">{{ $user->name }}</h5>
                             <p class="card-text">Email: {{ $user->email }}</p>
-                            <p class="card-text">Phone: {{ $user->phone}}</p>
-                            <p class="card-text">Address: {{ $user->address}}</p>
+                            <p class="card-text">Số Điện Thoại: {{ $user->phone}}</p>
+                            <p class="card-text">Địa Chỉ: {{ $user->address}}</p>
+                            <p class="card-text">Quốc Gia: {{ $user->country}}</p>
+                            <p class="card-text">Trạng Thái: {{ $user->status}}</p>
                         </div>
                     </div>
                     <div class="text-right">
-                        <a href="#" class="btn btn-primary">Chỉnh Sửa Thông Tin</a>
+                        <a href="{{ route('profile.edit') }}" class="btn btn-primary">Chỉnh Sửa Thông Tin</a>
                         <a href="#" class="btn btn-secondary">Thay Đổi mật khẩu</a>
                     </div>
                 </div>

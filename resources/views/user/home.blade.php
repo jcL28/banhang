@@ -1,6 +1,10 @@
 @extends('user.partials.layout')
 
 @section('content')
+    {{-- Banner --}}
+    <div class="banner text-white text-center py-4"
+        style="background-image: url('{{ asset('storage/images/banner.jpg') }}'); background-size: cover; background-position: center; height: 300px; display: flex; align-items: center; justify-content: center;">
+    </div>
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Các Sản Phẩm Mới Nhất</h1>
@@ -14,6 +18,7 @@
                                 @php
                                     $images = json_decode($product->images->images, true);
                                 @endphp
+
                                 @if (!empty($images[0]))
                                     <img src="{{ asset('storage/' . $images[0]) }}" class="card-img-top"
                                         alt="{{ $product->product_name }}"
@@ -32,8 +37,6 @@
                             <p class="card-text">Kích cỡ: {{ $product->product_size }}</p>
                             <p class="card-text">Giá:
                                 {{ number_format($product->product_price, 0, ',', '.') }} VND</p>
-                            {{-- <a href="{{ route('product.view-details', $product->id) }}" class="btn btn-primary">
-                                Xem Chi Tiết</a> --}}
                             <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                 @csrf
                                 @if (Auth::user())

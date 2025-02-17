@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Mail\VerifyEmail;
 
 class AuthController extends Controller
 {
@@ -26,6 +28,10 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'type' => 1], $request->remember)) {
+            if (Auth::user()->status == User::STATUS_INACTIVE) {
+                Auth::logout();
+                return redirect()->route('login')->with('error', 'Tài khoản chưa được kích hoạt. Hãy kiểm tra lại mail.');
+            }
             return redirect()->route('home');
         }
 
@@ -71,13 +77,16 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'country' => $request->country,
             'address' => $request->address,
-            'status' => $request->status,
-            'type' => 1,
+            'status' => User::STATUS_INACTIVE,
+            'type' => User::TYPE_USER,
             'role_id' => null,
         ]);
-        Auth::loginUsingId($user->id); // tự động đăng nhập người dùng sau khi đăng ký
-
-        return redirect()->route('');
+        try {
+            Mail::to($user->email)->send(new VerifyEmail($user));
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with('error', 'Đăng ký tài khoản thành công. Lỗi gửi email kích hoạt.');
+        }
+        return redirect()->route('login')->with('success', 'Đăng ký tài khoản thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.');
     }
 
     public function forgotPassword()
@@ -135,5 +144,23 @@ class AuthController extends Controller
         }
 
         return back()->withErrors(['email' => [__($status)]]);
+    }
+
+    public function verifyUser($id, $token)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return redirect()->route('register')->with('error', 'Không tìm thấy tài khoản.');
+        }
+        if ($user->status == User::STATUS_ACTIVE) {
+            return redirect()->route('home')->with('success', 'Tài khoản đã được kích hoạt trước đó.');
+        }
+        if (Hash::check($user->email, $token)) {
+            $user->status = User::STATUS_ACTIVE;
+            $user->save();
+            Auth::loginUsingId($user->id);
+            return redirect()->route('home')->with('success', 'Tài khoản đã được kích hoạt thành công.');
+        }
+        return redirect()->route('login')->with('error', 'Kích hoạt tài khoản không thành công.');
     }
 }
