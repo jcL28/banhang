@@ -44,6 +44,10 @@
                         <i class="fas fa-shopping-cart fa-sm fa-fw mr-2 text-400"></i>
                         Giỏ Hàng
                     </a>
+                    <a class="dropdown-item" href="{{ route('order-tracking.show') }}">
+                        <i class="fas fa-shopping-cart fa-sm fa-fw mr-2 text-400"></i>
+                        Đơn Mua
+                    </a>
                     <a class="dropdown-item" href="{{ route('admin.home') }}">
                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-400"></i>
                         Quay lại trang quản lý
@@ -71,6 +75,10 @@
                     <a class="dropdown-item" href="{{ route('cart') }}">
                         <i class="fas fa-shopping-cart fa-sm fa-fw mr-2 text-400"></i>
                         Giỏ Hàng
+                    </a>
+                    <a class="dropdown-item" href="{{ route('order-tracking.show') }}">
+                        <i class="fas fa-shopping-cart fa-sm fa-fw mr-2 text-400"></i>
+                        Đơn Mua
                     </a>
                     <a class="dropdown-item" href="#">
                         <i class="fas fa-list fa-sm fa-fw mr-2 text-400"></i>

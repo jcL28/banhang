@@ -82,7 +82,7 @@ class AuthController extends Controller
             'role_id' => null,
         ]);
         try {
-            Mail::to($user->email)->send(new VerifyEmail($user));
+            $user->sendEmailVerificationNotification();
         } catch (\Exception $e) {
             return redirect()->route('login')->with('error', 'Đăng ký tài khoản thành công. Lỗi gửi email kích hoạt.');
         }
@@ -146,7 +146,7 @@ class AuthController extends Controller
         return back()->withErrors(['email' => [__($status)]]);
     }
 
-    public function verifyUser($id, $token)
+    public function verifyUser($id, $hash)
     {
         $user = User::find($id);
         if (!$user) {
@@ -155,12 +155,39 @@ class AuthController extends Controller
         if ($user->status == User::STATUS_ACTIVE) {
             return redirect()->route('home')->with('success', 'Tài khoản đã được kích hoạt trước đó.');
         }
-        if (Hash::check($user->email, $token)) {
+        if (hash_equals(sha1($user->email), $hash)) {
             $user->status = User::STATUS_ACTIVE;
             $user->save();
             Auth::loginUsingId($user->id);
             return redirect()->route('home')->with('success', 'Tài khoản đã được kích hoạt thành công.');
         }
         return redirect()->route('login')->with('error', 'Kích hoạt tài khoản không thành công.');
+    }
+
+    public function showChangePasswordForm()
+    {
+        return view('auth.change-password');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại sai!']);
+        }
+        if (Hash::check($request->new_password, $user->password)) {
+            return back()->withErrors(['new_password' => 'Mật khẩu mới không được trùng với mật khẩu hiện tại!']);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->route('profile')->with('success', 'Thay đổi mật khẩu thành công!');
     }
 }

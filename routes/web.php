@@ -11,11 +11,12 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\IndexController;
 use App\Http\Middleware\CheckLoginMiddleware;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 Route::get('', [IndexController::class, 'index'])->name('home');
 Route::get('products', [ProductController::class, 'index'])->name('products');
-Route::get('verify/user/{id}/{token}', [AuthController::class, 'verifyUser'])->name('user.verify');
+Route::get('email/verify/{id}/{hash}', [AuthController::class, 'verifyUser'])->name('verification.verify');
 
 // SEARCH
 Route::get('/search', [IndexController::class, 'search'])->name('product.search');
@@ -43,7 +44,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 });
 
-
+// ORDER TRACKING
+Route::get('order-tracking', [OrderController::class, 'showOrderTrackingForm'])->name('order-tracking.show');
+Route::post('order-tracking', [OrderController::class, 'trackOrder'])->name('order-tracking.track');
 
 // AUTH
 Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -60,6 +63,9 @@ Route::post('forgot-password', [AuthController::class, 'postForgotPassword'])->n
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
+// Change Password
+Route::get('change-password', [AuthController::class, 'showChangePasswordForm'])->name('change-password');
+Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password.post');
 
 // ADMIN
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -113,5 +119,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => CheckLoginM
         Route::get('detail/{id}', [OrderController::class, 'detail'])->name('detail');
         Route::post('approve/{id}', [OrderController::class, 'approveOrder'])->name('approve');
         Route::post('reject/{id}', [OrderController::class, 'rejectOrder'])->name('reject');
+        Route::post('delivering/{id}', [OrderController::class, 'deliveringOrder'])->name('delivering');
+        Route::post('delivered/{id}', [OrderController::class, 'deliveredOrder'])->name('delivered');
+        Route::post('paid/{id}', [OrderController::class, 'paidOrder'])->name('paid');
     });
 });

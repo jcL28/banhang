@@ -8,11 +8,23 @@
             <div>
                 <form action="{{ route('admin.order.approve', $order->id) }}" method="POST" style="display:inline;">
                     @csrf
-                    <button type="submit" class="btn btn-success">Duyệt</button>
+                    <button type="submit" class="btn btn-primary">Duyệt</button>
                 </form>
                 <form action="{{ route('admin.order.reject', $order->id) }}" method="POST" style="display:inline;">
                     @csrf
                     <button type="submit" class="btn btn-danger">Từ Chối</button>
+                </form>
+                <form action="{{ route('admin.order.delivering', $order->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-warning">Đang Giao Hàng</button>
+                </form>
+                <form action="{{ route('admin.order.delivered', $order->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-info">Đã Giao Hàng</button>
+                </form>
+                <form action="{{ route('admin.order.paid', $order->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Đơn Đã Thanh Toán</button>
                 </form>
             </div>
         </div>
@@ -28,7 +40,23 @@
                         <h5>Thông Tin Đơn Hàng</h5>
                         <p>ID Đơn Hàng: {{ $order->id }}</p>
                         <p>Tổng Giá: {{ number_format($order->total_price, 0, ',', '.') }} VND</p>
-                        <p>Trạng Thái: {{ $order->status == 'pending' ? 'Đang chờ duyệt' : $order->status }}</p>
+                        <p>Trạng Thái:
+                            @if ($order->status == '0')
+                                Đang chờ duyệt <i class="fas fa-spinner fa-spin"></i>
+                            @elseif ($order->status == '1')
+                                Đã duyệt đơn <i class="fas fa-check-circle text-primary"></i>
+                            @elseif ($order->status == '2')
+                                Đã từ chối <i class="fas fa-times-circle text-danger"></i>
+                            @elseif ($order->status == '3')
+                                Đang giao hàng <i class="fas fa-truck text-warning"></i>
+                            @elseif ($order->status == '4')
+                                Đã giao hàng <i class="fas fa-box-open text-info"></i>
+                            @elseif ($order->status == '5')
+                                Đã thanh toán <i class="fas fa-dollar-sign text-success"></i>
+                            @else
+                                {{ $order->status }}
+                            @endif
+                        </p>
                         <hr>
                         <h5>Chi Tiết Sản Phẩm</h5>
                         <table class="table table-bordered text-center">
@@ -55,5 +83,4 @@
             </div>
         </div>
     </div>
-
 @endsection

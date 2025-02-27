@@ -146,4 +146,6 @@ class UserController extends Controller
 
         return redirect()->route('profile')->with('success', 'Đã cập nhật thông tin thành công.');
     }
+
+
 }

@@ -30,9 +30,15 @@
                                                 @if ($order->status == '0')
                                                     Đang chờ duyệt <i class="fas fa-spinner fa-spin"></i>
                                                 @elseif ($order->status == '1')
-                                                    Đã duyệt đơn <i class="fas fa-check-circle text-success"></i>
+                                                    Đã duyệt đơn <i class="fas fa-check-circle text-primary"></i>
                                                 @elseif ($order->status == '2')
                                                     Đã từ chối <i class="fas fa-times-circle text-danger"></i>
+                                                @elseif ($order->status == '3')
+                                                    Đang giao hàng <i class="fas fa-truck text-warning"></i>
+                                                @elseif ($order->status == '4')
+                                                    Đã giao hàng <i class="fas fa-box-open text-info"></i>
+                                                @elseif ($order->status == '5')
+                                                    Đã thanh toán <i class="fas fa-dollar-sign text-success"></i>
                                                 @else
                                                     {{ $order->status }}
                                                 @endif

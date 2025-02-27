@@ -24,7 +24,7 @@
                     </div>
                     <div class="text-right">
                         <a href="{{ route('profile.edit') }}" class="btn btn-primary">Chỉnh Sửa Thông Tin</a>
-                        <a href="#" class="btn btn-secondary">Thay Đổi mật khẩu</a>
+                        <a href="{{ route('change-password') }}" class="btn btn-secondary">Thay Đổi mật khẩu</a>
                     </div>
                 </div>
             </div>

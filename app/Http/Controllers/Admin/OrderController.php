@@ -37,4 +37,40 @@ class OrderController extends Controller
 
         return redirect()->route('admin.order.list')->with('success', 'Đã từ chối đơn hàng.');
     }
+
+    public function deliveringOrder($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = '3'; // Delivering
+        $order->save();
+
+        return redirect()->route('admin.order.list')->with('success', 'Đơn hàng đang được giao.');
+    }
+
+    public function deliveredOrder($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = '4'; // Delivered
+        $order->save();
+
+        return redirect()->route('admin.order.list')->with('success', 'Đơn hàng đã được giao.');
+    }
+
+    public function paidOrder($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = '5'; // Paid
+        $order->save();
+
+        return redirect()->route('admin.order.list')->with('success', 'Đơn hàng này đã được thanh toán.');
+    }
+
+    public function showOrderTrackingForm()
+    {
+        return view('user.order-tracking');
+    }
+
+    public function trackOrder(){
+
+    }
 }
